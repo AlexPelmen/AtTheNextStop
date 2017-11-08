@@ -1,0 +1,1 @@
+Objects.array = [{"type":"traficLight","x":910,"y":840,"angle":0,"mode":0},{"type":"traficLight","x":490,"y":840,"angle":90,"mode":0},{"type":"traficLight","x":490,"y":420,"angle":180,"mode":0},{"type":"traficLight","x":910,"y":420,"angle":270,"mode":0}];
