@@ -75,7 +75,7 @@ Objects.addNewObject = function(){
 }
 
 
-//Инициализация спрайтов
+//Инициализация спрайтов //TODO очень надо!!!
 Objects.initSprites = function(){
 	var img; 
 	var ob;
