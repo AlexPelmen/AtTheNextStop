@@ -6,8 +6,11 @@ var ObjectsBehavior = {
 	doTrafficLightBehavior: null,
 	
 	//Остальные объекты
-	Collision: null,
-	Intersect: null
+	eventAnim: null,
+	
+	//Коллизии
+	initCollisionObjectsArray: null,
+	collisionObjects: []
 }
 
 //Получаем массивчики со светофорами
@@ -40,7 +43,7 @@ ObjectsBehavior.getTrafficLightGroups = function(){
 	});	
 }
 
-//Сверяем: прошла ли секунда
+//Обновление анимации светофоров на перекрестках
 ObjectsBehavior.doTrafficLightBehavior = function(){
 	var ms = Date.now();
 	if( ms - this.lastTriggering >= 1000 ){
@@ -49,7 +52,7 @@ ObjectsBehavior.doTrafficLightBehavior = function(){
 			var v = ObjectsList.traficLight.behavior[ m ].vert;
 			var h = ObjectsList.behavior[ m ].hor;
 			var vSp = ObjectsList.traficLight.sprites[ v ];
-			var hSp = ObjectsList.traficLight.sprites[ h ];
+			var hSp = ObjectsList.traficLight.sprites[ h ];	//Это мы получили спрайты
 				if( ++g.modeTime > ObjectsList.traficLight.behavior[ m ][1] ){
 					g.modeTime = 0;
 					g.objVert.forEach( function( vert ){
@@ -64,7 +67,28 @@ ObjectsBehavior.doTrafficLightBehavior = function(){
 	}
 }
 
-//Проверка: была ли коллизия ( каждая итерация )
-ObjectsBehavior.collision = function( ob ){
-	ob.animation = ObjectsList[ ob.type ].sprites.collision;
+//Переключение анимаций объектов
+ObjectsBehavior.eventAnim = function( ob, eve ){
+	if( eve in ObjectsList[ ob.type ].sprites )
+		ob.animation = ObjectsList[ ob.type ].sprites[ eve ];
+}
+
+//Инициализация массива объектов коллизии
+ObjectsBehavior.initCollisionObjectsArray = function(){
+	var collisionTypes = [];
+	ObjectsList.forEach( function( ob ){
+		if( "collision" in ob )
+			collisionTypes.push( ob.type );
+	});
+	gameObjects.forEach( function( ob ){
+		collisionTypes.forEach( function( type ){
+			if( ob.type == type )
+			{
+				collisionObjects.push( ob.collision ); //???
+				//Тут заданы относительные координаты
+				//Исправить надо, а то жопа
+				return;
+			}
+		});		
+	});
 }
